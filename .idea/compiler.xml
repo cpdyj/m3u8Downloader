@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="inihelperkt.main" target="11" />
+      <module name="inihelperkt.test" target="11" />
+      <module name="m3u8Downloader.aria2apigen.main" target="11" />
+      <module name="m3u8Downloader.aria2apigen.test" target="11" />
+      <module name="m3u8Downloader.awsl" target="11" />
+      <module name="m3u8Downloader.comb.main" target="11" />
+      <module name="m3u8Downloader.comb.test" target="11" />
+      <module name="m3u8Downloader.inihelperkt.main" target="11" />
+      <module name="m3u8Downloader.inihelperkt.test" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
