@@ -1,7 +1,7 @@
 package view
 
-import ProxyOptions
-import ProxyType
+import options.ProxyOptions
+import options.ProxyType
 import javafx.geometry.Pos
 import tornadofx.*
 

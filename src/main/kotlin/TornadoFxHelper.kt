@@ -1,7 +1,9 @@
 import javafx.beans.property.BooleanProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.value.ChangeListener
+import javafx.util.StringConverter
 import tornadofx.ChangeListener
+import kotlin.reflect.KProperty0
 
 /**
  * Bind SimpleObjectProperty<Enum<*>> to BooleanProperty.
@@ -30,3 +32,4 @@ fun <A : Enum<*>, B : BooleanProperty> SimpleObjectProperty<A>.bindBooleanProper
         cancleList.forEach { it() }
     }
 }
+

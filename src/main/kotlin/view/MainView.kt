@@ -1,24 +1,20 @@
 package view
 
-import ConfigCenter
 import MainViewController
-import javafx.beans.property.SimpleStringProperty
-import javafx.event.EventHandler
 import javafx.geometry.HPos
 import javafx.geometry.Pos
 import javafx.scene.control.Alert
-import javafx.scene.control.TreeItem
 import javafx.scene.layout.Priority
 import javafx.stage.Modality
-import javafx.util.Callback
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import javafx.util.StringConverter
+import options.GlobalOptions
+import options.OptionBase
+import options.ProxyOptions
 import tornadofx.*
 
 class MainView : View() {
 
-    val controller=MainViewController(this)
+    val controller = MainViewController(this)
 
 
     override val root = borderpane {
@@ -36,38 +32,44 @@ class MainView : View() {
             gridpane {
                 this.hgap = 8.0
                 this.vgap = 8.0
-                this.hgrow=Priority.ALWAYS
+                this.hgrow = Priority.ALWAYS
                 row {
-                    label("WebDev url:").gridpaneConstraints { hAlignment = HPos.RIGHT }
-//                    textfield(controller.webdevUrl){
-//                        gridpaneColumnConstraints { this.hgrow=Priority.ALWAYS }
-//                        this.useMaxWidth=true
-//                    }
-                    button("Get"){
+                    label("devTools url:").gridpaneConstraints { hAlignment = HPos.RIGHT }
+                    textfield(controller.devToolsUrl){
+                        gridpaneColumnConstraints { this.hgrow=Priority.ALWAYS }
                         this.useMaxWidth=true
+                    }
+                    button("Get") {
+                        this.useMaxWidth = true
                     }
                 }
                 row {
                     label("Tab:").gridpaneConstraints { hAlignment = HPos.RIGHT }
                     choicebox<String> {
-                        hgrow=Priority.ALWAYS
-                        this.useMaxWidth=true
+                        hgrow = Priority.ALWAYS
+                        this.useMaxWidth = true
                     }
                 }
                 row {
                     label("Action:").gridpaneConstraints { hAlignment = HPos.RIGHT }
                     hbox {
-                        spacing=4.0
+                        spacing = 4.0
                         button("Connect")
                         button("Disconnect")
                     }
 
                 }
+                row {
+                    label("Proxy status:").gridpaneConstraints { hAlignment=HPos.RIGHT }
+                    label().bind(controller.proxy,readonly = true)
+                    controller.proxy.onChange { println("pcg: $it") }
+//                    (controller::proxy)
+                }
             }
-            splitpane{
-                this.vgrow=Priority.ALWAYS
+            splitpane {
+                this.vgrow = Priority.ALWAYS
                 vbox {
-                    this.vgrow=Priority.ALWAYS
+                    this.vgrow = Priority.ALWAYS
                     label("Video sources:")
                     treeview<String> {
 //                        isShowRoot=false
@@ -75,7 +77,7 @@ class MainView : View() {
                     }
                 }
                 vbox {
-                    this.vgrow=Priority.ALWAYS
+                    this.vgrow = Priority.ALWAYS
                     label("Video segments:")
                     tableview<String> {
                     }
@@ -96,9 +98,9 @@ class MainView : View() {
     }
 
     private fun popupProxySettings() {
-        ProxySettingsView(ConfigCenter.proxyOptions) {
-            it?.let { ConfigCenter.proxyOptions = it }
-        }.openWindow(resizable = false, owner = this.currentStage,modality = Modality.WINDOW_MODAL)
+        ProxySettingsView(GlobalOptions.proxyOptions.fork()) {
+            it?.let { GlobalOptions.proxyOptions=it }
+        }.openWindow(resizable = false, owner = this.currentStage, modality = Modality.WINDOW_MODAL)
     }
 
     private fun popupAboutWindow() {
@@ -111,7 +113,7 @@ class MainView : View() {
     }
 
     override fun onUndock() {
-        controller.onDestory()
+        controller.destroy()
         super.onUndock()
     }
 }

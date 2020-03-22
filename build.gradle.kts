@@ -61,7 +61,7 @@ dependencies {
     implementation("no.tornado:tornadofx:1.7.20")
     implementation(coroutine("javafx"))
 
-    compileOnly(project(":aria2client"))
+    implementation(project(":aria2client"))
     implementation(kotlin("stdlib-jdk8"))
 }
 
