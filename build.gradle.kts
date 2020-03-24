@@ -1,13 +1,21 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+//buildscript {
+//    repositories {
+//        jcenter()
+//    }
+//    dependencies {
+//        classpath("com.github.jengelman.gradle.plugins:shadow:5.2.0")
+//    }
+//}
 
 plugins {
     kotlin("jvm") version "1.3.70"
     id("org.openjfx.javafxplugin") version "0.0.8"
     kotlin("plugin.serialization") version "1.3.70"
     application
+//    id("com.github.johnrengelman.shadow") version "5.2.0"
 }
 allprojects {
-    apply(plugin="org.jetbrains.kotlin.jvm")
+    apply(plugin = "org.jetbrains.kotlin.jvm")
     group = "space.iseki"
     version = "1.0-SNAPSHOT"
 
@@ -25,7 +33,7 @@ allprojects {
         testImplementation("org.junit.jupiter:junit-jupiter:5.6.0")
         testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
 
-        val jacksonVersion="2.10.2"
+        val jacksonVersion = "2.10.2"
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
         implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
 
@@ -52,7 +60,7 @@ allprojects {
 
 dependencies {
 
-//    implementation(kotlin("stdlib-jdk8"))
+    //    implementation(kotlin("stdlib-jdk8"))
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
 
@@ -74,16 +82,16 @@ javafx {
     modules = listOf("javafx.controls", "javafx.fxml")
 }
 
-application{
-    mainClassName="MainKt"
+application {
+    mainClassName = "MainKt"
 }
 repositories {
     mavenCentral()
 }
 
 
-fun DependencyHandler.vertx(module:String,version:String="4.0.0-milestone4")=
+fun DependencyHandler.vertx(module: String, version: String = "4.0.0-milestone4") =
     "io.vertx:vertx-$module:$version"
 
-fun DependencyHandler.coroutine(module:String,version:String="1.3.3")=
+fun DependencyHandler.coroutine(module: String, version: String = "1.3.3") =
     "org.jetbrains.kotlinx:kotlinx-coroutines-$module:$version"

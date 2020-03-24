@@ -89,7 +89,8 @@ class Aria2Client(private val vertx: Vertx, val options: Aria2ClientOptions) : C
                             if (it.isNotEmpty() && it[0].second is Secret) {
                                 it.map { it.second }
                             } else {
-                                mutableListOf(secret as Any).apply { it.forEach { add(it.second) } }
+                                mutableListOf<Any>().also { if (secret != null) it.add(secret) else Unit }
+                                    .apply { it.forEach { add(it.second) } }
                             }
                         }
                     ).let(mapper::writeValueAsString)!!

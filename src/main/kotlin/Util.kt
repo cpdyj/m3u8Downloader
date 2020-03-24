@@ -3,8 +3,14 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.fasterxml.jackson.module.kotlin.treeToValue
+import io.vertx.core.http.HttpClientRequest
+import io.vertx.core.http.HttpClientResponse
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import java.net.URL
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 fun String?.toFileOrNull() = runCatching { File(this) }.getOrNull()
 
@@ -55,3 +61,14 @@ fun File.makeTreeIfNotExists(thisIsFolder: Boolean = false): File {
     return this
 }
 
+suspend fun HttpClientRequest.waitForResponse():HttpClientResponse =
+    suspendCoroutine { continuation->
+        this.setHandler {
+            if (it.succeeded()){
+                continuation.resume(it.result())
+            }else{
+                continuation.resumeWithException(it.cause())
+            }
+        }
+        this.end()
+    }
